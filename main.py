@@ -2,16 +2,40 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
-import sys, requests, json
-from ui import *
-from api_request import *
-from paket_xut import get_package_xut
-from my_package import fetch_my_packages
-from paket_custom_family import get_packages_by_family
-from auth_helper import AuthInstance
+import sys
+from app.menus.util import clear_screen, pause
+from app.client.engsel import *
+from app.service.auth import AuthInstance
+from app.menus.bookmark import show_bookmark_menu
+from app.menus.account import show_account_menu
+from app.menus.package import show_package_menu, fetch_my_packages, get_packages_by_family
+
+def show_main_menu(number, balance, balance_expired_at):
+    clear_screen()
+    phone_number = number
+    remaining_balance = balance
+    expired_at = balance_expired_at
+    expired_at_dt = datetime.fromtimestamp(expired_at).strftime("%Y-%m-%d %H:%M:%S")
+    
+    print("--------------------------")
+    print("Informasi Akun")
+    print(f"Nomor: {phone_number}")
+    print(f"Pulsa: Rp {remaining_balance}")
+    print(f"Masa aktif: {expired_at_dt}")
+    print("--------------------------")
+    print("Menu:")
+    print("1. Login/Ganti akun")
+    print("2. Lihat Paket Saya")
+    print("3. Beli Paket XUT")
+    print("4. Beli Paket Berdasarkan Family Code")
+    print("5. Beli Paket Berdasarkan Family Code (Enterprise)")
+    print("00. Bookmark Paket")
+    print("99. Tutup aplikasi")
+    print("--------------------------")
 
 show_menu = True
 def main():
+    
     while True:
         active_user = AuthInstance.get_active_user()
 
@@ -36,9 +60,7 @@ def main():
                 continue
             elif choice == "3":
                 # XUT 
-                packages = get_package_xut()
-                
-                show_package_menu(packages, False)
+                get_packages_by_family("08a3b1e6-8e78-4e45-a540-b40f06871cfe")
             elif choice == "4":
                 family_code = input("Enter family code (or '99' to cancel): ")
                 if family_code == "99":
@@ -49,6 +71,8 @@ def main():
                 if family_code == "99":
                     continue
                 get_packages_by_family(family_code, is_enterprise=True)
+            elif choice == "00":
+                show_bookmark_menu()
             elif choice == "99":
                 print("Exiting the application.")
                 sys.exit(0)
@@ -82,4 +106,4 @@ if __name__ == "__main__":
         print("\nExiting the application.")
     except Exception as e:
         print(f"An error occurred: {e}")
-    
+        

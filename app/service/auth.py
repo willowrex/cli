@@ -1,8 +1,8 @@
 import os
 import json
 import time
-from api_request import get_new_token
-from util import ensure_api_key
+from app.client.engsel import get_new_token
+from app.util import ensure_api_key
 
 class Auth:
     _instance_ = None

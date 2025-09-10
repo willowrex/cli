@@ -5,8 +5,8 @@ import base64
 import qrcode
 
 import requests
-from api_request import *
-from crypto_helper import API_KEY, build_encrypted_field, decrypt_xdata, encryptsign_xdata, java_like_timestamp, get_x_signature_payment, get_x_signature_bounty
+from app.client.engsel import *
+from app.client.crypto import API_KEY, build_encrypted_field, decrypt_xdata, encryptsign_xdata, java_like_timestamp, get_x_signature_payment, get_x_signature_bounty
 import time
 
 BASE_API_URL = os.getenv("BASE_API_URL")
