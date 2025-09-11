@@ -26,9 +26,6 @@ cd me-cli
 ```
 5. Setup
 ```
-chmod +x setup.sh
-```
-```
 ./setup.sh
 ```
 6. Run the script
