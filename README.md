@@ -14,30 +14,28 @@ pkg update && pkg upgrade -y
 ```
 2. Install Git
 ```
-pkg install git
+pkg install git -y
 ```
-3. Install Python & PIL
-```
-pkg install python
-apt install python-pillow
-```
-4. Clone this repo
+3. Clone this repo
 ```
 git clone https://github.com/purplemashu/me-cli
 ```
-5. Open the folder
+4. Open the folder
 ```
 cd me-cli
 ```
-6. Install dependencies
+5. Setup
 ```
-pip install -r requirements.txt
+chmod +x setup.sh
 ```
-7. Run the script
+```
+./setup.sh
+```
+6. Run the script
 ```
 python main.py
 ```
-8. Input your API key when prompted
+7. Input your API key when prompted
 
 # Info
 

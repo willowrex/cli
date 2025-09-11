@@ -1,3 +1,3 @@
-pkg update
-pkg install python
-pkg install python-pillow
+pkg update -y
+pkg install python -y
+pkg install python-pillow -y
