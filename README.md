@@ -26,7 +26,7 @@ cd me-cli
 ```
 5. Setup
 ```
-./setup.sh
+bash setup.sh
 ```
 6. Run the script
 ```
