@@ -9,7 +9,8 @@ import textwrap
 def clear_screen():
     print("Clearing screen...")
     os.system('cls' if os.name == 'nt' else 'clear')
-    ascii_art.to_terminal(columns=50)
+    if ascii_art:
+        ascii_art.to_terminal(columns=50)
 
 def pause():
     input("\nPress enter to continue...")
