@@ -10,7 +10,7 @@ Chat telegram bot [@fykxt_bot](https://t.me/fykxt_bot) with message `/viewkey`. 
 # How to run with TERMUX
 1. Update & Upgrade Termux
 ```
-apt update && apt full-upgrade
+pkg update && pkg upgrade -y
 ```
 2. Install Git
 ```
