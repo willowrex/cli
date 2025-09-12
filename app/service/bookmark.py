@@ -28,10 +28,21 @@ class Bookmark:
         with open(self.filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
 
+    def _ensure_schema(self):
+        """Ensure all bookmarks have the latest schema fields."""
+        updated = False
+        for p in self.packages:
+            if "family_name" not in p:  # add missing field
+                p["family_name"] = ""
+                updated = True
+        if updated:
+            self.save_bookmark()  # persist schema upgrade
+
     def load_bookmark(self):
-        """Load bookmarks from JSON file."""
+        """Load bookmarks from JSON file and ensure schema consistency."""
         with open(self.filepath, "r", encoding="utf-8") as f:
             self.packages = json.load(f)
+        self._ensure_schema()
 
     def save_bookmark(self):
         """Save current bookmarks to JSON file."""
@@ -40,6 +51,7 @@ class Bookmark:
     def add_bookmark(
         self,
         family_code: str,
+        family_name: str,
         is_enterprise: bool,
         variant_name: str,
         option_name: str,
@@ -56,6 +68,7 @@ class Bookmark:
 
         self.packages.append(
             {
+                "family_name": family_name,  # required field
                 "family_code": family_code,
                 "is_enterprise": is_enterprise,
                 "variant_name": variant_name,

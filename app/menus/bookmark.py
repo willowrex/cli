@@ -21,7 +21,7 @@ def show_bookmark_menu():
             return None
         
         for idx, bm in enumerate(bookmarks):
-            print(f"{idx + 1}. {bm['variant_name']} - {bm['option_name']}")
+            print(f"{idx + 1}. {bm['family_name']} - {bm['variant_name']} - {bm['option_name']}")
         
         print("00. Kembali ke menu utama")
         print("000. Hapus Bookmark")
