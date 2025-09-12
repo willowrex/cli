@@ -238,5 +238,5 @@ def get_x_signature_bounty(
         raise Exception(f"Signature generation failed: {response.text}")
 
 def ax_device_id() -> str:
-    android_id = "c" + os.urandom(7).hex()
+    android_id = load_ax_fp() # Actually just b*llsh*tting
     return hashlib.md5(android_id.encode("utf-8")).hexdigest()
