@@ -1,4 +1,4 @@
-import os, hmac, hashlib, requests, brotli, zlib, base64
+import os, hashlib, requests, brotli, zlib, base64
 from random import randint
 from datetime import datetime, timezone, timedelta
 from Crypto.Cipher import AES
@@ -236,4 +236,7 @@ def get_x_signature_bounty(
         return response.json().get("x_signature")
     else:
         raise Exception(f"Signature generation failed: {response.text}")
-    
+
+def ax_device_id() -> str:
+    android_id = "c" + os.urandom(7).hex()
+    return hashlib.md5(android_id.encode("utf-8")).hexdigest()
