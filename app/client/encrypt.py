@@ -7,11 +7,13 @@ from dataclasses import dataclass
 
 API_KEY = os.getenv("API_KEY")
 
-XDATA_DECRYPT_URL = "https://crypto.mashu.lol/api/decrypt"
-XDATA_ENCRYPT_SIGN_URL = "https://crypto.mashu.lol/api/encryptsign"
-PAYMENT_SIGN_URL = "https://crypto.mashu.lol/api/sign-payment"
-BOUNTY_SIGN_URL = "https://crypto.mashu.lol/api/sign-bounty"
-AX_SIGN_URL = "https://crypto.mashu.lol/api/sign-ax"
+BASE_CRYPTO_URL = "https://crypto.mashu.lol/api/870"
+
+XDATA_DECRYPT_URL = f"{BASE_CRYPTO_URL}/decrypt"
+XDATA_ENCRYPT_SIGN_URL = f"{BASE_CRYPTO_URL}/encryptsign"
+PAYMENT_SIGN_URL = f"{BASE_CRYPTO_URL}/sign-payment"
+BOUNTY_SIGN_URL = f"{BASE_CRYPTO_URL}/sign-bounty"
+AX_SIGN_URL = f"{BASE_CRYPTO_URL}/api/sign-ax"
 
 AES_KEY_ASCII = os.getenv("AES_KEY_ASCII")
 BLOCK = AES.block_size
