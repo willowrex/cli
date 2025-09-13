@@ -13,7 +13,7 @@ XDATA_DECRYPT_URL = f"{BASE_CRYPTO_URL}/decrypt"
 XDATA_ENCRYPT_SIGN_URL = f"{BASE_CRYPTO_URL}/encryptsign"
 PAYMENT_SIGN_URL = f"{BASE_CRYPTO_URL}/sign-payment"
 BOUNTY_SIGN_URL = f"{BASE_CRYPTO_URL}/sign-bounty"
-AX_SIGN_URL = f"{BASE_CRYPTO_URL}/api/sign-ax"
+AX_SIGN_URL = f"{BASE_CRYPTO_URL}/sign-ax"
 
 AES_KEY_ASCII = os.getenv("AES_KEY_ASCII")
 BLOCK = AES.block_size
