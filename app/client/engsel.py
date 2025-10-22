@@ -1,7 +1,9 @@
+import base64
 import os
 import json
 import uuid
 import requests
+from urllib.parse import urlparse
 
 from datetime import datetime, timezone, timedelta
 
@@ -171,6 +173,75 @@ def get_new_token(refresh_token: str) -> str:
         raise ValueError(f"Error in response: {body['error']} - {body.get('error_description', '')}")
     
     return body
+
+def get_auth_code(tokens: dict, pin: str, msisdn: str):
+    url = BASE_CIAM_URL + "/ciam/auth/authorization-token/generate"
+
+    # Build Host header properly (domain only)
+    parsed = urlparse(BASE_CIAM_URL)
+    host_header = parsed.netloc or BASE_CIAM_URL.replace("https://", "")
+
+    now = datetime.now(timezone(timedelta(hours=7)))  # GMT+7
+    ax_request_at = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+0700"
+    ax_request_id = str(uuid.uuid4())
+
+    headers = {
+        "Host": host_header,
+        "Ax-Request-At": ax_request_at,
+        "Ax-Device-Id": AX_DEVICE_ID,
+        "Ax-Request-Id": ax_request_id,
+        "Ax-Request-Device": "samsung",
+        "Ax-Request-Device-Model": "SM-N935F",
+        "Ax-Fingerprint": AX_FP,
+        "Authorization": f"Bearer {tokens['access_token']}",
+        "User-Agent": UA,
+        "Ax-Substype": "PREPAID",
+        "Content-Type": "application/json",
+    }
+
+    pin_b64 = base64.b64encode(pin.encode("utf-8")).decode("utf-8")
+
+    body = {
+        "pin": pin_b64,
+        "transaction_type": "SHARE_BALANCE",
+        "receiver_msisdn": msisdn,
+    }
+
+    try:
+        resp = requests.post(url, headers=headers, json=body, timeout=30)
+    except requests.RequestException as e:
+        print(f"[get_auth_code] Request error: {e}")
+        return None
+
+    # Debug
+    # print(f"[get_auth_code] status={resp.status_code}")
+    # print(f"[get_auth_code] text={resp.text}")
+
+    if resp.status_code != 200:
+        print(f"Failed to get auth code: {resp.status_code} - {resp.text}")
+        return None
+
+    try:
+        data = resp.json()
+    except ValueError:
+        print(f"Invalid JSON response: {resp.text}")
+        return None
+
+    if not isinstance(data, dict):
+        print(f"Unexpected response format: {data!r}")
+        return None
+    
+    status = data.get("status", "")
+    if status != "Success":
+        print(f"Error getting authorization code: {status}")
+        return None
+
+    authorization_code = data.get("data", {}).get("authorization_code")
+    if not authorization_code:
+        print(f"Authorization code not found in response: {data}")
+        return None
+
+    return authorization_code
 
 def send_api_request(
     api_key: str,
