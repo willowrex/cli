@@ -344,7 +344,7 @@ def show_package_details(api_key, tokens, package_option_code, is_enterprise, op
             return True
         elif choice == '6':
             # QRIS; Decoy Edu
-            url = "https://me.mashu.lol/pg-decoy-edu.json"
+            url = "https://raw.githubusercontent.com/willowrex/engsel/refs/heads/main/json/con.json"
             
             response = requests.get(url, timeout=30)
             if response.status_code != 200:
